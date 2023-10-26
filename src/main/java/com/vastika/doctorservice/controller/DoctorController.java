@@ -1,12 +1,15 @@
 package com.vastika.doctorservice.controller;
 
 import com.vastika.doctorservice.model.Doctor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping(value = "/doctor-service/api/v1")
+@RequestMapping(value = "/api/v1")
+@Tag(name = "Doctor API V1", description = "This is V1 API")
 public class DoctorController {
 
     /*
@@ -16,6 +19,22 @@ public class DoctorController {
         3. PUT
         4. PATCH
         5. DELETE
+     */
+
+    /*
+        HTTP CODE
+        2xx
+            200 - Success or OK
+
+        3xx
+
+        4xx
+            400 - Bad Request
+            404 - NOT FOUND
+            405 - Method not allowed
+
+        5xx
+
      */
 
     public DoctorController() {
@@ -32,6 +51,9 @@ public class DoctorController {
         return "Doctor Service is UP";
     }
 
+    @Operation(
+            summary = "Create Doctor",
+            description = "This is used to create a doctor")
     @PostMapping(value = "/doctor")
     public String createDoctor(Doctor doctor) {
         return "Doctor created successfully";
@@ -50,6 +72,19 @@ public class DoctorController {
     @GetMapping(value = "/doctor")
     public String getDoctors() {
         return "Doctor List";
+    }
+
+    @GetMapping(value = "/doctor/{doctorId}")
+    public String getDoctorDetail(@PathVariable(value = "doctorId") Long id) {
+        log.info(String.valueOf(id));
+        return "Doctor Detail";
+    }
+
+    @GetMapping(value = "/doctor/speciality")
+    public String getDoctorWithSpecialities(@RequestParam(value = "special", required = false) String spe_var) {
+        log.info(String.valueOf(spe_var));
+
+        return "Doctor List of specific speciality";
     }
 
 }
